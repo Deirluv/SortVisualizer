@@ -4,16 +4,10 @@ using System.Runtime.CompilerServices;
 
 namespace SortVisualizer.Models;
 
-public enum Status
-{
-    NotSorted, InProgress, Sorted
-}
-
 public class SortingElement : INotifyPropertyChanged
 {
     private int _value;
     private string _color = "Blue";
-    private Status _status = Status.NotSorted;
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public int Value
@@ -26,12 +20,6 @@ public class SortingElement : INotifyPropertyChanged
     {
         get => _color;
         set => SetField(ref _color, value);
-    }
-
-    public Status Status
-    {
-        get => _status;
-        set => SetField(ref _status, value);
     }
     
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="SortVisualizer/App.axaml" value="SortVisualizer/SortVisualizer.csproj" />
         <entry key="SortVisualizer/Views/MainWindow.axaml" value="SortVisualizer/SortVisualizer.csproj" />
       </map>
     </option>

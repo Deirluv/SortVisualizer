@@ -7,14 +7,81 @@
         x:Class="SortVisualizer.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="SortVisualizer">
+        Title="SortVisualizer"
+        Width="1280"
+        Height="720"
+        WindowStartupLocation="CenterScreen">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
+    
+    <Grid RowDefinitions="Auto, *">
+        <StackPanel Grid.Row="0" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center" 
+                    Spacing="10" 
+                    Margin="10">
+        
+            <TextBlock Text="Speed (ms):" VerticalAlignment="Center" Margin="10,0,0,0"/>
+    
+            <NumericUpDown Value="{Binding Speed}" 
+                           Name="SpeedInput"
+                           ParsingNumberStyle="Integer"
+                           Minimum="1" 
+                           Maximum="1000"
+                           Increment="10"
+                           Width="120"/>
+            <TextBlock Text="Number of elements:" VerticalAlignment="Center" Margin="10,0,0,0"/>
+    
+            <NumericUpDown Value="{Binding NumberOfElements}"
+                           Name="NumberInput"
+                           ParsingNumberStyle="Integer"
+                           Minimum="1" 
+                           Maximum="100"
+                           Increment="1"
+                           Width="120"/>
+            
+            <Button Content="Shuffle" 
+                    Command="{Binding ShuffleCommand}" 
+                    Padding="10,5" />
+        
+            <Button Content="Start Sort" 
+                    Command="{Binding StartSortCommand}" 
+                    Padding="10,5" 
+                    Classes="accent" /> 
+        </StackPanel>
 
-    <TextBlock Text="In Progress" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Border Grid.Row="1" Background="#1e1e1e" Margin="10" CornerRadius="5">
+            <ItemsControl ItemsSource="{Binding SortingElements}">
+        
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Bottom"
+                                    Margin="5"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Width="25" 
+                                   Margin="2" 
+                                   Height="{Binding Value}" 
+                                   Fill="{Binding Color}" 
+                                   VerticalAlignment="Bottom">
+                            <Rectangle.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Height" Duration="0:0:0.1"/>
+                                </Transitions>
+                            </Rectangle.Transitions>
+                        </Rectangle>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </Grid>
 </Window>

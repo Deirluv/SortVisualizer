@@ -72,3 +72,10 @@ D:\vscode_source\Projects\SortVisualizer\SortVisualizer\obj\Debug\net9.0\refint\
 D:\vscode_source\Projects\SortVisualizer\SortVisualizer\obj\Debug\net9.0\SortVisualizer.pdb
 D:\vscode_source\Projects\SortVisualizer\SortVisualizer\obj\Debug\net9.0\SortVisualizer.genruntimeconfig.cache
 D:\vscode_source\Projects\SortVisualizer\SortVisualizer\obj\Debug\net9.0\ref\SortVisualizer.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\obj\Debug\net9.0\SortVisualizer.sourcelink.json
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.Asio.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.Core.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.Midi.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.Wasapi.dll
+D:\vscode_source\Projects\SortVisualizer\SortVisualizer\bin\Debug\net9.0\NAudio.WinMM.dll
