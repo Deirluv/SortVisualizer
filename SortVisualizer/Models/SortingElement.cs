@@ -7,7 +7,7 @@ namespace SortVisualizer.Models;
 public class SortingElement : INotifyPropertyChanged
 {
     private int _value;
-    private string _color = "Blue";
+    private string? _color;
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public int Value

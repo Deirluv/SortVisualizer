@@ -12,6 +12,21 @@ namespace SortVisualizer.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly AudioService _audioService = new();
+
+    public List<ISortStrategy> SortingStrategies { get; } = new()
+    {
+        new BubbleSortStrategy(),
+        new InsertionSortStrategy()
+    };
+    
+    private ISortStrategy? _selectedSortingStrategy;
+
+    public ISortStrategy? SelectedSortingStrategy
+    {
+        get => _selectedSortingStrategy;
+        set => SetField(ref _selectedSortingStrategy, value);
+    }
+    
     public ObservableCollection<SortingElement> SortingElements { get; } = new();
     
     public ICommand ShuffleCommand { get; }
@@ -35,6 +50,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        SelectedSortingStrategy = SortingStrategies[0];
         ShuffleCommand = new RelayCommand(Shuffle);
         StartSortCommand = new AsyncRelayCommand(StartSortAsync);
         Shuffle();
@@ -43,7 +59,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private void Shuffle()
     {
         SortingElements.Clear();
-        for (int i = 0; i < (NumberOfElements ?? 10); i++)
+        for (var i = 0; i < (NumberOfElements ?? 10); i++)
         {
             SortingElements.Add(new SortingElement { Value = Random.Shared.Next(1, 200), Color = "Blue"});
         }
@@ -51,26 +67,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private async Task StartSortAsync()
     {
-        var elementCount = SortingElements.Count;
-        for (var i = 0; i < elementCount; i++)
+        if (SelectedSortingStrategy != null)
         {
-            for (var j = 0; j < elementCount - i - 1; j++)
-            {
-                SortingElements[j].Color = "Red";
-                SortingElements[j + 1].Color = "Red";
-                if (SortingElements[j].Value > SortingElements[j + 1].Value)
-                {
-                    _audioService.PlayTone(SortingElements[j].Value);
-                    (SortingElements[j].Value, SortingElements[j + 1].Value) = (SortingElements[j + 1].Value, SortingElements[j].Value);
-                }
-                await Task.Delay(Speed ?? 20);
-                SortingElements[j].Color = "Blue";
-                SortingElements[j + 1].Color = "Blue";
-            }
-
-            SortingElements[elementCount - i - 1].Color = "Green";
+            await SelectedSortingStrategy.SortAsync(SortingElements, Speed ?? 20, _audioService); 
         }
     }
+    
+    
     
     protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
