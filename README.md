@@ -25,6 +25,7 @@ An interactive desktop app built with **Avalonia** and **C#**. This project demo
 ## 🧬 Algorithms Implemented
 
 [ ] Bubble Sort
+[ ] Insertion Sort
 
 ---
 
