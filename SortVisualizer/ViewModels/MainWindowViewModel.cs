@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using SortVisualizer.Infrastructure;
@@ -11,8 +12,10 @@ namespace SortVisualizer.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private CancellationTokenSource? _cancellationTokenSource;
+    
     private readonly AudioService _audioService = new();
-
+    
     public List<ISortStrategy> SortingStrategies { get; } = new()
     {
         new BubbleSortStrategy(),
@@ -58,6 +61,9 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void Shuffle()
     {
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
+        _cancellationTokenSource = new CancellationTokenSource();
         SortingElements.Clear();
         for (var i = 0; i < (NumberOfElements ?? 10); i++)
         {
@@ -67,10 +73,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private async Task StartSortAsync()
     {
-        if (SelectedSortingStrategy != null)
+        if (SelectedSortingStrategy == null) return;
+        try
         {
-            await SelectedSortingStrategy.SortAsync(SortingElements, Speed ?? 20, _audioService); 
+            await SelectedSortingStrategy.SortAsync(SortingElements, Speed ?? 20, _audioService,
+                _cancellationTokenSource!.Token);
         }
+        catch (OperationCanceledException) { }
     }
     
     

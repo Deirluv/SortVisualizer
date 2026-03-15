@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using SortVisualizer.Infrastructure;
 
@@ -7,26 +8,38 @@ namespace SortVisualizer.Models;
 public class InsertionSortStrategy : ISortStrategy 
 {
     public string Name { get; } = "Insertion Sort";
-    public async Task SortAsync(ObservableCollection<SortingElement> sortingElements, int speed, AudioService audioService)
+    public async Task SortAsync(ObservableCollection<SortingElement> sortingElements, int speed, AudioService audioService, CancellationToken cancellationToken)
     {
-        var elementCount = sortingElements.Count;
-        for (var i = 0; i < elementCount; i++)
+        int n = sortingElements.Count;
+
+        for (int i = 1; i < n; i++)
         {
-            for (var j = 0; j < elementCount - i - 1; j++)
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
+            var key = sortingElements[i].Value;
+            int j = i - 1;
+            sortingElements[i].Color = "Yellow"; 
+
+            while (j >= 0 && sortingElements[j].Value > key)
             {
                 sortingElements[j].Color = "Red";
-                sortingElements[j + 1].Color = "Red";
-                if (sortingElements[j].Value > sortingElements[j + 1].Value)
+                audioService.PlayTone(sortingElements[j].Value);
+                sortingElements[j + 1].Value = sortingElements[j].Value;
+                await Task.Delay(speed, cancellationToken).ContinueWith(t => {});
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    audioService.PlayTone(sortingElements[j].Value);
-                    (sortingElements[j].Value, sortingElements[j + 1].Value) = (sortingElements[j + 1].Value, sortingElements[j].Value);
+                    return;
                 }
-                await Task.Delay(speed);
                 sortingElements[j].Color = "Blue";
-                sortingElements[j + 1].Color = "Blue";
+                j--;
             }
-
-            sortingElements[elementCount - i - 1].Color = "Green";
+            
+            sortingElements[j + 1].Value = key;
+            for (int k = 0; k <= i; k++) {
+                sortingElements[k].Color = "Green";
+            }
         }
     }
 }
