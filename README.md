@@ -30,7 +30,9 @@ An interactive desktop app built with **Avalonia** and **C#**. This project demo
 
 ---
 
-<img width="1275" height="748" alt="sort" src="https://github.com/user-attachments/assets/1130e680-b772-4466-960e-703d93f0ebb3" />
+<img width="1276" height="748" alt="visualize" src="https://github.com/user-attachments/assets/eb31abfe-1948-4905-97ad-53d879274be1" />
+
+<img width="1277" height="749" alt="sort 1" src="https://github.com/user-attachments/assets/40ac0a73-9c31-45a3-9837-c0ec530fea77" />
 
 ---
 
